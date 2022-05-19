@@ -25,8 +25,8 @@ export class RegisterComponent implements OnInit {
                 this.close()
                 this.toastrMessageService.showSuccessToastr('Success', 'You are registered')
             },
-            error: (error) => {
-                this.toastrMessageService.showErrorToastr(error);
+            error: (errors) => {
+                this.toastrMessageService.showErrorToastr(errors);
             }
         });
     }

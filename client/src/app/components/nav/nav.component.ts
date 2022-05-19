@@ -29,8 +29,8 @@ export class NavComponent implements OnInit {
                     this.toastrMessageService.showSuccessToastr(`Welcome  ${this.model.username}`, 'You are logged in')
                     this.model = {}
                 },
-                error: (error) => {
-                    this.toastrMessageService.showErrorToastr(error);
+                error: (errors) => {
+                    this.toastrMessageService.showErrorToastr(errors);
                 }
             })
     }
