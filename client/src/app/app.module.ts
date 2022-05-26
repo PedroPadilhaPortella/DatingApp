@@ -17,6 +17,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
+import { MemberCardComponent } from './components/members/member-card/member-card.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { ServerErrorComponent } from './components/errors/server-error/server-er
         NotFoundComponent,
         TestErrorsComponent,
         ServerErrorComponent,
+        MemberCardComponent,
     ],
     imports: [
         BrowserModule,

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User, NewUser } from '../models/user';
+import { User, UserLogin } from '../models/user';
 
 // Angular Services are Singletons, they are shared across the application.
 // Injectable decorator is used to mark a class as available for dependency injection.
@@ -27,7 +27,7 @@ export class AccountService {
         );
     }
 
-    register(model: NewUser) {
+    register(model: UserLogin) {
         return this.http.post(`${this.baseUrl}/account/register`, model).pipe(
             map((user: User) => {
                 this.saveAtLocalStorage(user);

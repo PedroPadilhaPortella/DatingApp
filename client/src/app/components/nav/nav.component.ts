@@ -1,9 +1,7 @@
-import { ToastrMessageService } from './../../services/toastr-message.service';
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../services/account.service';
+import { ToastrMessageService } from './../../services/toastr-message.service';
 
 @Component({
     selector: 'app-nav',

@@ -3,7 +3,7 @@ export interface User {
     token: string;
 }
 
-export interface NewUser {
+export interface UserLogin {
     username: string;
     password: string;
 }
