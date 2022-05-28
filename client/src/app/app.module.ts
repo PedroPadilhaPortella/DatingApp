@@ -1,3 +1,4 @@
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -20,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
 import { MemberCardComponent } from './components/members/member-card/member-card.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +37,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
         TestErrorsComponent,
         ServerErrorComponent,
         MemberCardComponent,
+        MemberEditComponent,
     ],
     imports: [
         BrowserModule,
@@ -47,7 +50,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     ],
     bootstrap: [AppComponent]
 })

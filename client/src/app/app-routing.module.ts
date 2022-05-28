@@ -1,3 +1,4 @@
+import { PreventUnsaveChangesGuard } from './guards/prevent-unsave-changes.guard';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -9,6 +10,7 @@ import { MemberDetailsComponent } from './components/members/member-details/memb
 import { MembersListComponent } from './components/members/members-list/members-list.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { AuthGuard } from './guards/auth.guard';
+import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,6 +24,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: 'members', component: MembersListComponent },
+            { path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsaveChangesGuard] },
             { path: 'member/:username', component: MemberDetailsComponent },
             { path: 'lists', component: ListsComponent },
             { path: 'messages', component: MessagesComponent },
