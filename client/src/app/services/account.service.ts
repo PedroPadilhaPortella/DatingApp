@@ -17,35 +17,46 @@ export class AccountService {
 
     constructor(private http: HttpClient) { }
 
+    /**
+     * Login the user.
+     * @param model 
+     * @returns 
+     */
     login(model: any) {
         return this.http.post(`${this.baseUrl}/account/login`, model).pipe(
             map((user: User) => {
                 if (user) {
-                    this.saveAtLocalStorage(user);
+                    this.setCurrentUser(user);
                 }
             })
         );
     }
 
+    /**
+     * Register the user.
+     */
     register(model: UserLogin) {
         return this.http.post(`${this.baseUrl}/account/register`, model).pipe(
             map((user: User) => {
-                this.saveAtLocalStorage(user);
+                this.setCurrentUser(user);
             })
         )
     }
 
-    setCurrentuser(user: User) {
-        this.currentUserSource.next(user);
-    }
-
-    saveAtLocalStorage(user: User) {
+    /**
+     * Set the current user on the Buffer of ReplaySubject and save him on the localStorage.
+     * @param user 
+     */
+    setCurrentUser(user: User) {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user));
             this.currentUserSource.next(user);
         }
     }
 
+    /**
+     * Logout the user, removing him from the localStorage and cleaning the Buffer of ReplaySubject.
+     */
     logout() {
         localStorage.removeItem('user');
         this.currentUserSource.next(null);

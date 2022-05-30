@@ -17,7 +17,9 @@ namespace API.Extensions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddAutoMapper(typeof (AutoMapperProfiles).Assembly);
+            services.Configure<CloudinaySettings>(configuration.GetSection("CloudinarySettings"));
 
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 

@@ -9,11 +9,17 @@ export class BusyService {
 
     constructor(private spinnerService: NgxSpinnerService) { }
 
+    /**
+     * Show spinner
+     */
     busy() {
         this.busyRequestCount++;
         this.spinnerService.show(undefined);
     }
 
+    /**
+     * Hide spinner
+     */
     idle() {
         this.busyRequestCount--;
         if (this.busyRequestCount <= 0) {

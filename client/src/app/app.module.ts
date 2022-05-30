@@ -22,6 +22,7 @@ import { ServerErrorComponent } from './components/errors/server-error/server-er
 import { MemberCardComponent } from './components/members/member-card/member-card.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
+import { PhotoEditorComponent } from './components/members/photo-editor/photo-editor.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { MemberEditComponent } from './components/members/member-edit/member-edi
         ServerErrorComponent,
         MemberCardComponent,
         MemberEditComponent,
+        PhotoEditorComponent,
     ],
     imports: [
         BrowserModule,

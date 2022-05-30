@@ -8,34 +8,38 @@ export class ToastrMessageService {
 
     constructor(private toastr: ToastrService) { }
 
+   /**
+    * Show a success toastr
+    * @param title the title of the toastr, if not provided, the toast will be without title
+    * @param message the message of the toastr
+    */ 
     showSuccessToastr(title: string, message: string) {
         this.toastr.success(message, title);
     }
 
+    /**
+     * Show a warning toastr
+     * @param message the message of the toastr
+     */
     showWarningToastr(message: string) {
         this.toastr.warning(message);
     }
 
+    /**
+    * Show a danger toastr
+    * @param title the title of the toastr, if not provided, the toast will be without title
+    * @param message the message of the toastr
+    */ 
     showDangerToastr(title: string, message: string) {
         this.toastr.error(message, title);
     }
 
+    /**
+     * Show an error toastr will a list of errors from the form.
+     * @param errors a list of all the errors of the form
+     */
     showErrorToastr(errors: string[]) {
         errors.forEach(error =>  this.toastr.error(error));
-        
-        // if (error.status === 401) {
-        //     this.toastr.error(error.error)
-        // } else if (error.status === 400) {
-        //     if (error.error.errors && error.error.errors.Username)
-        //         this.toastr.error(error.error.errors.Username[0])
-        //     else if (error.error.errors && error.error.errors.Password)
-        //         this.toastr.error(error.error.errors.Password[0])
-        //     else
-        //         this.toastr.error(error.error)
-        // }
-        // else {
-        //     this.toastr.error("Something went wrong")
-        // }
     }
 
 }
