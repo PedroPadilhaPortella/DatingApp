@@ -1,0 +1,24 @@
+<div class="form-group mb-3">
+    <input class="form-control" 
+        type="{{type}}" 
+        placeholder="{{label}}" 
+        [formControl]="ngControl.control" 
+        [class.is-invalid]="ngControl.touched && ngControl.invalid"
+    >
+    
+    <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">
+        Please enter a {{label}}
+    </div>
+
+    <div *ngIf="ngControl.control.errors?.minLength" class="invalid-feedback">
+        {{label}} must be at least {{ngControl.control.errors.minLength["requiredMinLength"]}}
+    </div>
+    
+    <div *ngIf="ngControl.control.errors?.pattern" class="invalid-feedback">
+        Your password must contain 8 characters and at least an uppercase letter, a number and a special character ($ * & @ #)
+    </div>
+    
+    <div *ngIf="ngControl.control.errors?.isMatching" class="invalid-feedback">
+        Passwords do not match
+    </div>
+</div>

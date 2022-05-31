@@ -2,7 +2,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,8 @@ import { MemberCardComponent } from './components/members/member-card/member-car
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { PhotoEditorComponent } from './components/members/photo-editor/photo-editor.component';
+import { TextInputComponent } from './components/shared/text-input/text-input.component';
+import { DateInputComponent } from './components/shared/date-input/date-input.component';
 
 @NgModule({
     declarations: [
@@ -40,12 +42,15 @@ import { PhotoEditorComponent } from './components/members/photo-editor/photo-ed
         MemberCardComponent,
         MemberEditComponent,
         PhotoEditorComponent,
+        TextInputComponent,
+        DateInputComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
         FormsModule,
+        ReactiveFormsModule,
         BrowserAnimationsModule,
         SharedModule,
         TabsModule.forRoot(),

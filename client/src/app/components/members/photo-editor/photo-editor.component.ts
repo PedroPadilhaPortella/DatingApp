@@ -31,6 +31,9 @@ export class PhotoEditorComponent implements OnInit {
 
     /**
      * Initialize the photo uploader.
+     * When the upload of a photo is done and succeded,
+     * the photo is added to the user's photo lists, on the member's photo list and
+     *  saved on the currentState of the logged user.
      */
     initializeUploader() {
         this.uploader = new FileUploader({
@@ -49,8 +52,13 @@ export class PhotoEditorComponent implements OnInit {
 
         this.uploader.onSuccessItem = (item, response, status, headers) => {
             if (response) {
-                const photo = JSON.parse(response);
+                const photo: Photo = JSON.parse(response);
                 this.member.photos.push(photo);
+                if(photo.isMain) {
+                    this.user.photoUrl = photo.url;
+                    this.member.photoUrl = photo.url;
+                    this.accountService.setCurrentUser(this.user);
+                }
             }
         }
     }
@@ -66,20 +74,24 @@ export class PhotoEditorComponent implements OnInit {
     /**
      * Update the mainPhoto of the member when the button is selected, and then, 
      * update the member in the localStorage and in the State.
-     * @param photo
+     * @param photo `Photo`
      */
     setMainPhoto(photo: Photo) {
         this.memberService.setMainPhoto(photo.id).subscribe(() => {
-                this.user.photoUrl = photo.url;
-                this.accountService.setCurrentUser(this.user);
-                this.member.photoUrl = photo.url;
-                this.member.photos.forEach(p => {
-                    if (p.isMain) p.isMain = false;
-                    if (p.id === photo.id) p.isMain = true;
-                });
+            this.user.photoUrl = photo.url;
+            this.accountService.setCurrentUser(this.user);
+            this.member.photoUrl = photo.url;
+            this.member.photos.forEach(p => {
+                if (p.isMain) p.isMain = false;
+                if (p.id === photo.id) p.isMain = true;
+            });
         });
     }
 
+    /**
+     * Delete a photo from the user's photo list
+     * @param photo `Photo`
+     */
     deletePhoto(photo: Photo) {
         this.memberService.deletePhoto(photo.id).subscribe(() => {
             this.member.photos = this.member.photos.filter(p => p.id !== photo.id);
