@@ -7,8 +7,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
-
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
     declarations: [],
@@ -21,6 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
         NgxSpinnerModule,
         FileUploadModule,
         BsDatepickerModule.forRoot(),
+        PaginationModule.forRoot(),
     ],
     exports: [
         BsDropdownModule,
@@ -30,6 +30,7 @@ import { ToastrModule } from 'ngx-toastr';
         NgxSpinnerModule,
         FileUploadModule,
         BsDatepickerModule,
+        PaginationModule,
     ]
 })
 export class SharedModule { }
