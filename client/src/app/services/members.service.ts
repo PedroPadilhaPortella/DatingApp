@@ -42,7 +42,8 @@ export class MembersService {
      * @param userParams The parameters you want to send to the server.
      * @returns `Observable<PaginatedResult<Member>>` The response of the server.
      */
-    getMembers(userParams: UserParams): Observable<PaginatedResult<Member[]>> {
+    getMembers(userParams: UserParams): Observable<PaginatedResult<Member[]>> 
+    {
         var response = this.memberCache.get(Object.values(userParams).join('-'));
         if(response) return of(response);
 
@@ -105,6 +106,19 @@ export class MembersService {
      */
     deletePhoto(photoId: number): Observable<any> {
         return this.http.delete(`${this.baseUrl}/users/delete-photo/${photoId}`);
+    }
+
+    addLike(username: string): Observable<any> {
+        return this.http.post(`${this.baseUrl}/likes/${username}`, {});
+    }
+    
+    getLikes(predicate: string, pageNumber: number, pageSize: number)
+    : Observable<PaginatedResult<Partial<Member[]>>>
+    {
+        let params = this.buildPaginationHeader(pageNumber, pageSize);
+        params = params.append('predicate', predicate);
+
+        return this.getPaginatedResult<Partial<Member[]>>(`${this.baseUrl}/likes`, params);
     }
 
     /**

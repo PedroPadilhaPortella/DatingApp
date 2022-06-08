@@ -29,8 +29,11 @@ export class ErrorInterceptor implements HttpInterceptor {
                                     }
                                 }
                                 throw modalStateErrors.flat();
-                            } else {
+                            } else if(typeof(error.error) === 'object') {
                                 this.toastrMessageService.showDangerToastr(error.statusText === 'OK' ? 'Bad Request' : error.statusText, error.status);
+                            } else {
+                                // this.toastrMessageService.showDangerToastr(error.status, error.error);
+                                this.toastrMessageService.showWarningToastr(error.error);
                             }
                             break;
                         case 401:

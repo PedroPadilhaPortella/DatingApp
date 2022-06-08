@@ -33,7 +33,6 @@ export class MembersListComponent implements OnInit {
             .subscribe((response) => {
                 this.members = response.result;
                 this.pagination = response.pagination;
-                this.pagination.currentPage
             });
     }
 
