@@ -1,0 +1,14 @@
+.img-circle {
+    max-height: 50px;
+}
+
+
+button.btn-delete {
+    background-color: rgba(255, 0, 0, 0.781);
+    color: white;
+}
+
+button.btn-delete:hover {
+    background-color: rgba(255, 0, 0, 0.904);
+    color: white;
+}

@@ -1,3 +1,4 @@
+import { MemberDetailedResolver } from './resolvers/member-detailed.resolver';
 import { PreventUnsaveChangesGuard } from './guards/prevent-unsave-changes.guard';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
 import { NgModule } from '@angular/core';
@@ -24,8 +25,10 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: 'members', component: MembersListComponent },
-            { path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsaveChangesGuard] },
-            { path: 'member/:username', component: MemberDetailsComponent },
+            { path: 'member/edit', component: MemberEditComponent, 
+                canDeactivate: [PreventUnsaveChangesGuard] },
+            { path: 'member/:username', component: MemberDetailsComponent, 
+                resolve: {member: MemberDetailedResolver} },
             { path: 'lists', component: ListsComponent },
             { path: 'messages', component: MessagesComponent },
         ]
