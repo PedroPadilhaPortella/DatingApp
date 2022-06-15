@@ -12,6 +12,7 @@ import { MembersListComponent } from './components/members/members-list/members-
 import { MessagesComponent } from './components/messages/messages.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
+import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -31,6 +32,7 @@ const routes: Routes = [
                 resolve: {member: MemberDetailedResolver} },
             { path: 'lists', component: ListsComponent },
             { path: 'messages', component: MessagesComponent },
+            { path: 'admin', component: AdminPanelComponent },
         ]
     },
     { path: '**', redirectTo: 'home' },
