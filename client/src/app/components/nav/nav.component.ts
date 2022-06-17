@@ -9,7 +9,7 @@ import { ToastrMessageService } from './../../services/toastr-message.service';
     styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-    model: any = { username: 'pedro', password: 'Am@terasu1' }
+    model: any = { username: 'lisa', password: 'Pa$$w0rd' }
 
     constructor(
         public accountService: AccountService, 

@@ -1,3 +1,4 @@
+import { AdminGuard } from './guards/admin.guard';
 import { MemberDetailedResolver } from './resolvers/member-detailed.resolver';
 import { PreventUnsaveChangesGuard } from './guards/prevent-unsave-changes.guard';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
@@ -32,7 +33,7 @@ const routes: Routes = [
                 resolve: {member: MemberDetailedResolver} },
             { path: 'lists', component: ListsComponent },
             { path: 'messages', component: MessagesComponent },
-            { path: 'admin', component: AdminPanelComponent },
+            { path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard] },
         ]
     },
     { path: '**', redirectTo: 'home' },

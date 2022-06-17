@@ -13,20 +13,23 @@ import { HomeComponent } from './components/home/home.component';
 import { ListsComponent } from './components/lists/lists.component';
 import { MemberDetailsComponent } from './components/members/member-details/member-details.component';
 import { MembersListComponent } from './components/members/members-list/members-list.component';
-import { MessagesComponent } from './components/messages/messages.component';
 import { NavComponent } from './components/nav/nav.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
 import { MemberCardComponent } from './components/members/member-card/member-card.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { PhotoEditorComponent } from './components/members/photo-editor/photo-editor.component';
 import { TextInputComponent } from './components/shared/text-input/text-input.component';
 import { DateInputComponent } from './components/shared/date-input/date-input.component';
 import { MemberMessagesComponent } from './components/members/member-messages/member-messages.component';
 import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.component';
+import { MessagesComponent } from './components/messages/messages.component';
+import { HasRoleDirective } from './directives/has-role.directive';
+import { PhotoManagementComponent } from './components/admin/photo-management/photo-management.component';
+import { UserManagementComponent } from './components/admin/user-management/user-management.component';
+import { RolesModalComponent } from './components/shared/modals/roles-modal/roles-modal.component';
 
 @NgModule({
     declarations: [
@@ -48,6 +51,10 @@ import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.
         DateInputComponent,
         MemberMessagesComponent,
         AdminPanelComponent,
+        HasRoleDirective,
+        UserManagementComponent,
+        PhotoManagementComponent,
+        RolesModalComponent,
     ],
     imports: [
         BrowserModule,
@@ -57,7 +64,6 @@ import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.
         ReactiveFormsModule,
         BrowserAnimationsModule,
         SharedModule,
-        TabsModule.forRoot(),
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
