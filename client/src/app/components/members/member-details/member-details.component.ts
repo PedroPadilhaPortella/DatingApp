@@ -1,3 +1,4 @@
+import { PresenceService } from './../../../services/presence.service';
 import { MessagesService } from './../../../services/messages.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -23,9 +24,9 @@ export class MemberDetailsComponent implements OnInit {
     galleryImages: NgxGalleryImage[];
 
     constructor(
-        private memberService: MembersService, 
         private route: ActivatedRoute,
-        private messageService: MessagesService
+        private messageService: MessagesService,
+        public presenceService: PresenceService, 
     ) { }
 
     /**

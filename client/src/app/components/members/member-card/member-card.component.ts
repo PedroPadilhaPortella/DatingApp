@@ -1,3 +1,4 @@
+import { PresenceService } from './../../../services/presence.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ToastrMessageService } from 'src/app/services/toastr-message.service';
 import { Member } from './../../../models/member';
@@ -12,7 +13,11 @@ export class MemberCardComponent implements OnInit {
     @Input('member') member: Member;
     @Input('liked') liked: boolean = false;
     
-    constructor(private memberService: MembersService, private toastrService: ToastrMessageService) { }
+    constructor(
+        private memberService: MembersService, 
+        private toastrService: ToastrMessageService,
+        public presenceService: PresenceService,
+    ) { }
 
     ngOnInit(): void {}
 
