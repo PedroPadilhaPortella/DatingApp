@@ -1,21 +1,35 @@
+import { ToastrService } from 'ngx-toastr';
 import { PaginationService } from './pagination.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Message } from '../models/message';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, take } from 'rxjs';
 import { PaginatedResult } from '../models/pagination';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { User } from '../models/user';
+import * as signalR from '@microsoft/signalr';
+import { Group } from '../models/group';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MessagesService {
     baseUrl = environment.APIUrl;
+    hubUrl = environment.HubUrl;
+    private hubConnection: HubConnection;
 
-    constructor(private http: HttpClient, private paginationService: PaginationService) { }
+    private messageThreadSource = new BehaviorSubject<Message[]>([]);
+    messageThread$ = this.messageThreadSource.asObservable();
+
+    constructor(
+        private http: HttpClient, 
+        private paginationService: PaginationService,
+        private toastr: ToastrService,
+    ) { }
 
     getMessages(pageNumber: number, pageSize: number, container: string)
-    : Observable<PaginatedResult<Message[]>> {
+        : Observable<PaginatedResult<Message[]>> {
         let params = this.paginationService.buildPaginationHeader(pageNumber, pageSize);
         params = params.append('container', container);
 
@@ -23,15 +37,67 @@ export class MessagesService {
             .getPaginatedResult<Message[]>(`${this.baseUrl}/messages`, params);
     }
 
-    getMessagesThread(username: string):Observable<Message[]> {
+    getMessagesThread(username: string): Observable<Message[]> {
         return this.http.get<Message[]>(`${this.baseUrl}/messages/thread/${username}`);
     }
 
-    sendMessage(username: string, content: string): Observable<Message> {
-        return this.http.post<Message>(`${this.baseUrl}/messages`, {recipientUsername: username, content});
+    async sendMessage(username: string, content: string): Promise<any> {
+        return this.hubConnection.invoke('SendMessage', { recipientUsername: username, content })
+            .catch(error => console.log(error));
+        // return this.http.post<Message>(`${this.baseUrl}/messages`, { recipientUsername: username, content });
     }
-    
-    deleteMessage(id: number) {
+
+    deleteMessage(id: number): Observable<any> {
         return this.http.delete(`${this.baseUrl}/messages/${id}`);
+    }
+
+    /**
+     * Creating of the hubConnection
+     * @param user the `User` that is being logged in, the sender
+     * @param otherUsername `string` the username of the receiper
+     */
+    createHubConnection(user: User, otherUsername: string): void {
+        this.hubConnection = new HubConnectionBuilder()
+            .withUrl(`${this.hubUrl}/message?user=${otherUsername}`, {
+                accessTokenFactory: () => user.token,
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets,
+            })
+            .withAutomaticReconnect()
+            .build();
+
+        this.hubConnection.start().catch(error => console.log(error));
+
+        this.hubConnection.on('ReceiveMessageThread', (messages: Message[]) => {
+            this.messageThreadSource.next(messages);
+        });
+
+        this.hubConnection.on('NewMessage', (message: Message) => {
+            this.messageThread$.pipe(take(1)).subscribe(messages => {
+                this.messageThreadSource.next([...messages, message]);
+            })
+        });
+
+        this.hubConnection.on('UpdatedGroup', (group: Group) => {
+            if(group.connections.some(x => x.username == otherUsername)) {
+                this.messageThread$.pipe(take(1)).subscribe((messages) => {
+                    messages.forEach(message => {
+                        if(!message.dateRead) {
+                            message.dateRead = new Date(Date.now());
+                        }
+                    });
+                    this.messageThreadSource.next([...messages]);
+                })
+            }
+        })
+    }
+
+    /**
+     * Stopping the hubConnection
+     */
+    stopHubConnection(): void {
+        if(this.hubConnection) {
+            this.hubConnection.stop().catch(error => console.log(error));
+        }
     }
 }

@@ -45,11 +45,12 @@
             </tab>
             <tab heading="Photos" (selectTab)="onTabActivate($event)">
                 <h4>Photos</h4>
-                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery">
+                </ngx-gallery>
             </tab>
             <tab heading="Messages" (selectTab)="onTabActivate($event)">
                 <h4>Messages</h4>
-                <app-member-messages [messages]="messages" [username]="member.username">
+                <app-member-messages [username]="member.username">
                 </app-member-messages>
             </tab>
         </tabset>
