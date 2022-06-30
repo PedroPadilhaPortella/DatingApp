@@ -1,3 +1,4 @@
+import { ConfirmService } from './../../services/confirm.service';
 import { MessagesService } from './../../services/messages.service';
 import { Message } from './../../models/message';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +17,7 @@ export class MessagesComponent implements OnInit {
     pageSize = 6;
     loading = false;
 
-    constructor(private messageService: MessagesService) { }
+    constructor(private messageService: MessagesService, private confirmService: ConfirmService) { }
 
     ngOnInit(): void {
         this.loadMessages();
@@ -25,21 +26,26 @@ export class MessagesComponent implements OnInit {
     loadMessages() {
         this.loading = true;
         this.messageService.getMessages(this.pageNumber, this.pageSize, this.container)
-        .subscribe((response: PaginatedResult<Message[]>) => {
-            this.messages = response.result;
-            this.pagination = response.pagination;
-            this.loading = false;
+            .subscribe((response: PaginatedResult<Message[]>) => {
+                this.messages = response.result;
+                this.pagination = response.pagination;
+                this.loading = false;
             });
     }
 
     deleteMessage(id: number) {
-        this.messageService.deleteMessage(id).subscribe(() => {
-            this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
-        })
+        this.confirmService.confirm('Confirm delete message', 'Thsi cannot be undone')
+            .subscribe((result) => {
+                if (result) {
+                    this.messageService.deleteMessage(id).subscribe(() => {
+                        this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
+                    });
+                }
+            });
     }
 
     pageChanged(event: any): void {
-        if(this.pageNumber !== event.page) {
+        if (this.pageNumber !== event.page) {
             this.pageNumber = event.page;
             this.loadMessages();
         }

@@ -2,10 +2,10 @@
     border: none;
 }
 
-.card-body {
+/* .card-body {
     overflow-y: scroll;
     max-height: 380px;
-}
+} */
 
 .chat {
     list-style: none;
