@@ -8,13 +8,13 @@
     <app-text-input [formControl]="registerForm.controls['knownAs']" label="Known As">
     </app-text-input>
     
-    <div class="form-group mb-3">
+    <div class="mb-3">
         <label class="control-label" style="margin-right: 10px;">I am a: </label>
-        <label class="radio-inline">
-            <input type="radio" formControlName="gender" value="male"> Male
+        <label class="form-check-label">
+            <input type="radio" formControlName="gender" value="male" class="form-check-input"> Male
         </label>
-        <label class="radio-inline">
-            <input type="radio" formControlName="gender" value="female" class="ms-3"> Female
+        <label class="form-check-label">
+            <input type="radio" formControlName="gender" value="female" class="ms-3 form-check-input"> Female
         </label>
     </div>
     
@@ -44,6 +44,3 @@
         <button (click)="close()" class="btn btn-success me-2" type="button">Cancel</button>
     </div>
 </form>
-
-<p>form value: {{registerForm.value | json}}</p>
-<p>form value: {{registerForm.status | json}}</p>

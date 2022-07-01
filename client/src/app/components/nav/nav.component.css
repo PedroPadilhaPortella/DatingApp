@@ -8,3 +8,19 @@ img {
     display: inline;
     margin-right: 1.5rem;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-item {
+    display: flex;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        justify-content: center;
+        align-items: center;
+    }
+}
