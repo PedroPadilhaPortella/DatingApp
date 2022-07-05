@@ -1,15 +1,16 @@
-import { ToastrService } from 'ngx-toastr';
-import { PaginationService } from './pagination.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { Message } from '../models/message';
-import { BehaviorSubject, Observable, take } from 'rxjs';
-import { PaginatedResult } from '../models/pagination';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { User } from '../models/user';
 import * as signalR from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable, take } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Group } from '../models/group';
+import { Message } from '../models/message';
+import { PaginatedResult } from '../models/pagination';
+import { User } from '../models/user';
+import { BusyService } from './busy.service';
+import { PaginationService } from './pagination.service';
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +26,7 @@ export class MessagesService {
     constructor(
         private http: HttpClient, 
         private paginationService: PaginationService,
+        private busyService: BusyService,
         private toastr: ToastrService,
     ) { }
 
@@ -57,6 +59,7 @@ export class MessagesService {
      * @param otherUsername `string` the username of the receiper
      */
     createHubConnection(user: User, otherUsername: string): void {
+        this.busyService.busy();
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(`${this.hubUrl}/message?user=${otherUsername}`, {
                 accessTokenFactory: () => user.token,
@@ -66,7 +69,9 @@ export class MessagesService {
             .withAutomaticReconnect()
             .build();
 
-        this.hubConnection.start().catch(error => console.log(error));
+        this.hubConnection.start()
+            .catch(error => console.log(error))
+            .finally(() =>  this.busyService.idle());
 
         this.hubConnection.on('ReceiveMessageThread', (messages: Message[]) => {
             this.messageThreadSource.next(messages);
@@ -97,6 +102,7 @@ export class MessagesService {
      */
     stopHubConnection(): void {
         if(this.hubConnection) {
+            this.messageThreadSource.next([]);
             this.hubConnection.stop().catch(error => console.log(error));
         }
     }
