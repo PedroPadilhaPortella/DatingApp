@@ -1,3 +1,5 @@
+import { ToastrMessageService } from 'src/app/services/toastr-message.service';
+import { ToastrService } from 'ngx-toastr';
 import { PresenceService } from './../../../services/presence.service';
 import { MessagesService } from './../../../services/messages.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -31,7 +33,9 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
+        private memberService: MembersService,
         private messageService: MessagesService,
+        private toastrService: ToastrMessageService,
         public presenceService: PresenceService,
     ) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -96,6 +100,12 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
         } else {
             this.messageService.stopHubConnection();
         }
+    }
+
+    addLike(member: Member) {
+        this.memberService.addLike(member.username).subscribe(() => {
+            this.toastrService.showSuccessToastr(`You have liked ${member.knownAs}`, "Success");
+        });
     }
 
     selectTab(tabId: number): void {
